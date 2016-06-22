@@ -40,7 +40,7 @@ app.get('/db', function(request, response) {
 });
 
 app.get('/sayhi', function(request, response) {
-  response.send('{"text": "Hello world!"}');
+  response.send({"text": "Hello world!"});
 });
 
 app.listen(app.get('port'), function() {
