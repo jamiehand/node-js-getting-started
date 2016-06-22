@@ -43,8 +43,13 @@ app.get('/sayhi', function(request, response) {
   response.send({"text": "Hello world!"});
 });
 
+app.post('/isitup', function(request, response) {
+  var command = request.command
+  var text = request.text
+  var token = request.token
+  response.send({"text": text});
+});
+
 app.listen(app.get('port'), function() {
   console.log('Node app is running on port', app.get('port'));
 });
-
-
