@@ -63,7 +63,7 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json());
 
 app.post('/isitup', function(request, response) {
-  var command = request.body.command;
+  // var command = request.body.command;
   var text = request.body.text;
   var token = request.body.token;
   var msg = "default msg";
@@ -107,12 +107,12 @@ app.post('/isitup', function(request, response) {
 
         // send a different msg depending on status_code
         if (status_code == 1) {
-          msg = "Yay! " + text + " is *up*! :) ";
+          msg = ":smile: Yay! `" + text + "` is *up*!";
         } else if (status_code == 2) {
           console.log("hello!!!");
-          msg = "Oh no! " + text + " is *down*. :( ";
+          msg = ":hushed: Oh no! `" + text + "` is *down*.";
         } else if (status_code == 3) {
-          msg = "Uh oh, isitup.org doesn't think " + text + " is a valid " +
+          msg = ":confused: Uh oh, isitup.org doesn't think `" + text + "` is a valid " +
                 "domain. Please enter both the domain name AND suffix " +
                 " (example: *amazon.com* or *whitehouse.gov*).";
         } else {
