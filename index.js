@@ -71,7 +71,7 @@ app.post('/isitup', function(request, response) {
 
   // Check the token and make sure the request is from our team
   if (token != process.env.ISITUP_TOKEN) {
-    msg = "The token for the slash command doesn't match. Check your script.";
+    response.send({"text": "The token for the slash command doesn't match. Check your script."});
   } else {
     // isitup.org doesn't require you to use API keys, but they do require that
     // any automated script send in a user agent string.
@@ -124,7 +124,6 @@ app.post('/isitup', function(request, response) {
       console.log("Got error: " + e.message);
     });
   } // end if-else that checks whether token is correct
-  response.send({"text": msg});
 });
 
 app.listen(app.get('port'), function() {
