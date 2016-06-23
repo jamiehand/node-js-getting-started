@@ -1,3 +1,4 @@
+var bodyParser = require('body-parser');
 var pg = require('pg');
 var cool = require('cool-ascii-faces');
 var express = require('express');
