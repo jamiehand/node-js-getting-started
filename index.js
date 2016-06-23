@@ -124,6 +124,7 @@ app.post('/isitup', function(request, response) {
       console.log("Got error: " + e.message);
     });
   } // end if-else that checks whether token is correct
+  response.send({"text": msg});
 });
 
 app.listen(app.get('port'), function() {
