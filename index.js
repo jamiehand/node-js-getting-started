@@ -5,6 +5,7 @@ var app = express();
 var bodyParser = require('body-parser');
 var http = require('http');
 var https = require('https');
+var request = require('request');
 
 app.set('port', (process.env.PORT || 5000));
 
@@ -89,8 +90,6 @@ app.post('/isitup', function(request, response) {
     };
     https.get(options, function(res) {
       console.log("Got response: " + res.statusCode);
-      // TODO return a different message based on whether the site is up or
-      // not (based on res form isitup.org).
       // Parse the JSON and get the status_code member from the body of res
       // (advice on this from http://stackoverflow.com/a/6968669/4979097).
       // msg =
@@ -124,6 +123,34 @@ app.post('/isitup', function(request, response) {
       console.log("Got error: " + e.message);
     });
   } // end if-else that checks whether token is correct
+});
+
+app.get('/webhook-event', function(req, response) {
+  // response.send({"text": "Hello world!"});
+  console.log("**** path: " + process.env.WEBHOOK_PATH);
+  var options = {
+    method: 'POST',
+    url: 'https://hooks.slack.com/services/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',
+    body: '{"text": "hello!"}'
+  };
+
+  request(options, function(error, response, body) {
+    if (error) throw new Error(error);
+
+    console.log(body);
+  });
+
+  // var rq = https.request(options, function(res) {
+  //   console.log("Response statusCode: " + res.statusCode);
+  //   console.log("headers: " + res.headers);
+  //   res.on('data', function(d) {
+  //     console.log("body: " + d);
+  //     response.send("ok");
+  //   });
+  // }).on('error', function(e) {
+  //   console.log("Got error: " + e.message);
+  // });
+  // rq.end();
 });
 
 app.listen(app.get('port'), function() {
