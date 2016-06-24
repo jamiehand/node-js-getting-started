@@ -6,6 +6,7 @@ var bodyParser = require('body-parser');
 var http = require('http');
 var https = require('https');
 var request = require('request');
+var Twitter = require('twitter');
 
 app.set('port', (process.env.PORT || 5000));
 
@@ -125,13 +126,11 @@ app.post('/isitup', function(request, response) {
   } // end if-else that checks whether token is correct
 });
 
-app.get('/webhook-event', function(req, res) {
-  // response.send({"text": "Hello world!"});
-  console.log("**** path: " + process.env.WEBHOOK_PATH);
+var sendToWebHook = function(req, res, payload) {
   var options = {
     method: 'POST',
     url: process.env.WEBHOOK_URL,
-    body: '{"text": "hello!"}'
+    body: payload
   };
 
   request(options, function(error, response, body) {
@@ -141,19 +140,31 @@ app.get('/webhook-event', function(req, res) {
     // send the response back to the service that called "get"
     res.send(body);
   });
+};
 
-  // var rq = https.request(options, function(res) {
-  //   console.log("Response statusCode: " + res.statusCode);
-  //   console.log("headers: " + res.headers);
-  //   res.on('data', function(d) {
-  //     console.log("body: " + d);
-  //     response.send("ok");
-  //   });
-  // }).on('error', function(e) {
-  //   console.log("Got error: " + e.message);
-  // });
-  // rq.end();
+app.get('/webhook-event', function(req, res) {
+  sendToWebHook(req, res, '{"text": "hello again!"}');
 });
+
+/* Twitter CLIENT TO SEND TO WEBHOOK_URL */
+
+var client = new Twitter({
+  consumer_key: '',
+  consumer_secret: '',
+  access_token_key: '',
+  access_token_secret: ''
+});
+
+var params = {screen_name: 'nodejs'};
+client.get('statuses/user_timeline', params, function(error, tweets, response){
+  if (!error) {
+
+  }
+})
+
+
+
+
 
 app.listen(app.get('port'), function() {
   console.log('Node app is running on port', app.get('port'));
