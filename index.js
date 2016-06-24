@@ -125,19 +125,21 @@ app.post('/isitup', function(request, response) {
   } // end if-else that checks whether token is correct
 });
 
-app.get('/webhook-event', function(req, response) {
+app.get('/webhook-event', function(req, res) {
   // response.send({"text": "Hello world!"});
   console.log("**** path: " + process.env.WEBHOOK_PATH);
   var options = {
     method: 'POST',
-    url: 'https://hooks.slack.com/services/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',
+    url: process.env.WEBHOOK_URL,
     body: '{"text": "hello!"}'
   };
 
   request(options, function(error, response, body) {
     if (error) throw new Error(error);
-
     console.log(body);
+
+    // send the response back to the service that called "get"
+    res.send(body);
   });
 
   // var rq = https.request(options, function(res) {
